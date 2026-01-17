@@ -25,7 +25,7 @@ void exercice1(int n) {
 				else if (i + j < n - 1) {
 					std::cout << ' ';
 				}
-				else if (j > i + n - 1) {
+				else if (j - i > n - 1) {
 					std::cout << ' ';
 				}
 				else {
