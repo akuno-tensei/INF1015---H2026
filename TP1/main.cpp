@@ -123,13 +123,13 @@ void exercice3(std::string filename = "aliments.txt") {
 //================================================ Exercice4 ==========================================
 
 bool found(int tab[20][10], int rangee, int colonne, int places) {
-	for (int i = 0; i < 10; i++) {
-		for (int j = colonne; j < colonne + places; j++) {
-			if (tab[i][j] == 0) {
-				return false;
-			}
+	
+	for (int i = colonne; i < colonne + places; i++) {
+		if (tab[rangee][i] == 1) {
+			return false;
 		}
 	}
+	
 	return true;
 }
 
@@ -179,7 +179,7 @@ std::map<std::string, int> denombrement(Etudiant tab[], int start, int end, int 
 	std::map<std::string, int> result = { {"Electrique", 0}, {"Informatique", 0}, {"Logiciel", 0}, {"Biomedical", 0}, {"Autre", 0} };
 
 	for (int i = 0; i < taille; i++) {
-		if (tab[i].matricule > end or tab[i].matricule < start) {
+		if (tab[i].matricule > end || tab[i].matricule < start) {
 			continue;
 		}
 		else if (tab[i].departement == "ELE") {
@@ -235,8 +235,22 @@ int main()
 	exercice1(6);
 
 	// Test exercice2 avec : Chiffrement par decalage
-	std::string phrase = "Chiffrement par decalage";
-	std::cout << exercice2(phrase, 4) << std::endl;
+	std::string phrase; int key;
+
+	while (true) {
+		std::cout << "Veuillez entrer une phrase : "; std::cin >> phrase;
+
+		std::cout << "Veuillez enter la cle de chiffrement (entre 1 et 17) : "; std::cin >> key;
+
+		if (key > 0 && key < 18) {
+			break;
+		}
+		else {
+			std::cout << "La cle de chiffrement entree n'est pas valide";
+		}
+	}
+
+	std::cout << "Voici la phrase encryptee : " << exercice2(phrase, key);
 
 	// Test exercice3
 	exercice3();
