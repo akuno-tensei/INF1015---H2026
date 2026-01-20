@@ -12,6 +12,7 @@
 
 //================================================ Exercice1 ==========================================
 
+/* Affiche un triangle d'étoiles isocèle de hauteur n*/
 void exercice1(int n) {
 	if (n == 1) {
 		std::cout << '*' << std::endl;
@@ -40,7 +41,7 @@ void exercice1(int n) {
 
 
 //================================================ Exercice2 ==========================================
-
+/* Décale un caractère C de "key" positions dans l'alphabet*/
 char shift(char C, int key) {
 	char result;
 	int asciiC = (int)C;
@@ -59,6 +60,7 @@ char shift(char C, int key) {
 	return result;
 }
 
+/* Chiffre une phrase en décalant chaque caractère de "key" positions */
 std::string exercice2(std::string& phrase, int key) {
 	for (int i = 0; i < phrase.length(); i++) {
 		phrase[i] = shift(phrase[i], key);
@@ -73,6 +75,7 @@ std::string exercice2(std::string& phrase, int key) {
 
 //================================================ Exercice3 ==========================================
 
+/* Trouve le minimum d'un tableau de double */
 double minimum(double tab[], int dim) {
 	double min = tab[0];
 	for (int i = 1; i < dim; i++) {
@@ -84,6 +87,7 @@ double minimum(double tab[], int dim) {
 	return min;
 }
 
+/* Trouve le maximum d'un tableau de double */
 double maximum(double tab[], int dim) {
 	double max = tab[0];
 	for (int i = 1; i < dim; i++) {
@@ -95,6 +99,8 @@ double maximum(double tab[], int dim) {
 	return max;
 }
 
+/* Lit un fichier contenant des produits et leurs prix, 
+stocke les prix dans un tableau, puis affiche le maximum et le minimum des prix */
 void exercice3(std::string filename = "aliments.txt") {
 	std::string produit = "None", prix;
 	std::fstream file(filename);
@@ -122,6 +128,7 @@ void exercice3(std::string filename = "aliments.txt") {
 
 //================================================ Exercice4 ==========================================
 
+/* Vérifie si un nombre de places est disponible dans une rangée à partir d'une colonne */
 bool found(int tab[20][10], int rangee, int colonne, int places) {
 	
 	for (int i = colonne; i < colonne + places; i++) {
@@ -133,6 +140,7 @@ bool found(int tab[20][10], int rangee, int colonne, int places) {
 	return true;
 }
 
+/* Affiche toutes les places disponibles dans un cinéma */
 void exercice4(int n, int cinema[20][10]) {
 	for (int i = 0; i < 20; i++) {
 		for (int j = 0; j < 10; j++) {
@@ -148,11 +156,13 @@ void exercice4(int n, int cinema[20][10]) {
 
 //================================================ Exercice5 ==========================================
 
+/* Structure représentant un étudiant */
 struct Etudiant {
 	int matricule;
 	std::string departement;
 };
 
+/* Lit un fichier contenant des étudiants et leurs départements, et les stocke dans un tableau. Retourne le nombre d'étudiants lus */
 int collecte(Etudiant tab[], std::string filename) {
 	std::string mat, dep;
 	std::fstream file(filename);
@@ -175,6 +185,7 @@ int collecte(Etudiant tab[], std::string filename) {
 	return indice;
 }
 
+/* Dénombre les étudiants dans chaque département selon une plage de matricules */
 std::map<std::string, int> denombrement(Etudiant tab[], int start, int end, int taille = 400) {
 	std::map<std::string, int> result = { {"Electrique", 0}, {"Informatique", 0}, {"Logiciel", 0}, {"Biomedical", 0}, {"Autre", 0} };
 
@@ -201,6 +212,7 @@ std::map<std::string, int> denombrement(Etudiant tab[], int start, int end, int 
 	return result;
 }
 
+/* collecte les étudiants depuis un fichier, demande une plage de matricules, puis affiche le dénombrement par département */
 void exercice5(std::string filename = "etudiants.txt") {
 	Etudiant tab[400];
 	
