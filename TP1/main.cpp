@@ -74,6 +74,7 @@ std::string encrypt(std::string& phrase, int key) {
 void exercice2() {
 	std::string phrase; int key;
 
+	std::cin.ignore();
 	std::cout << "Veuillez entrer une phrase : "; 
 	std::getline(std::cin, phrase);
 
