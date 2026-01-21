@@ -5,15 +5,15 @@
 
 #include <fstream>
 
-#include <map>
-
-
-
 
 //================================================ Exercice1 ==========================================
 
-/* Affiche un triangle d'étoiles isocèle de hauteur n*/
-void exercice1(int n) {
+/* Affiche un triangle d'�toiles isoc�le de hauteur "n" */
+void exercice1() {
+	int n;
+	std::cout << "Entrer la hauteur du triange : "; 
+	std::cin >> n;
+
 	if (n == 1) {
 		std::cout << '*' << std::endl;
 	}
@@ -41,7 +41,8 @@ void exercice1(int n) {
 
 
 //================================================ Exercice2 ==========================================
-/* Décale un caractère C de "key" positions dans l'alphabet*/
+
+/* D�cale un caract�re C de "key" positions dans l'alphabet */
 char shift(char C, int key) {
 	char result;
 	int asciiC = (int)C;
@@ -60,14 +61,36 @@ char shift(char C, int key) {
 	return result;
 }
 
-/* Chiffre une phrase en décalant chaque caractère de "key" positions */
-std::string exercice2(std::string& phrase, int key) {
+/* Chiffre une phrase en d�calant chaque caract�re de "key" positions */
+std::string encrypt(std::string& phrase, int key) {
 	for (int i = 0; i < phrase.length(); i++) {
 		phrase[i] = shift(phrase[i], key);
 	}
 
 	return phrase;
+}
 
+/* Demande une phrase et une cl� de chiffrement � l'utilisateur et affiche la phrase cryptee */
+void exercice2() {
+	std::string phrase; int key;
+
+	std::cout << "Veuillez entrer une phrase : "; 
+	std::getline(std::cin, phrase);
+
+	while (true) {
+
+		std::cout << "Veuillez enter la cle de chiffrement (entre 1 et 17) : "; 
+		std::cin >> key;
+
+		if (key > 0 && key < 18) {
+			break;
+		}
+		else {
+			std::cout << "La cle de chiffrement entree n'est pas valide !" << std::endl;
+		}
+	}
+
+	std::cout << "Voici la phrase encryptee : " << encrypt(phrase, key) << std::endl;
 }
 
 //=====================================================================================================
@@ -99,7 +122,7 @@ double maximum(double tab[], int dim) {
 	return max;
 }
 
-/* Lit un fichier contenant des produits et leurs prix, 
+/* Lit un fichier contenant des produits et leurs prix,
 stocke les prix dans un tableau, puis affiche le maximum et le minimum des prix */
 void exercice3(std::string filename = "aliments.txt") {
 	std::string produit = "None", prix;
@@ -128,41 +151,81 @@ void exercice3(std::string filename = "aliments.txt") {
 
 //================================================ Exercice4 ==========================================
 
-/* Vérifie si un nombre de places est disponible dans une rangée à partir d'une colonne */
+/* V�rifie si un nombre de places est disponible dans une rang�e � partir d'une colonne donnee */
 bool found(int tab[20][10], int rangee, int colonne, int places) {
-	
+
 	for (int i = colonne; i < colonne + places; i++) {
 		if (tab[rangee][i] == 1) {
 			return false;
 		}
 	}
-	
+
 	return true;
 }
 
-/* Affiche toutes les places disponibles dans un cinéma */
-void exercice4(int n, int cinema[20][10]) {
+/* Affiche toutes les places disponibles dans un cin�ma */
+void exercice4(int cinema[20][10]) {
+
+	int n;
+	std::cout << "Le nombre de places souhaitees : "; 
+	std::cin >> n;
+
 	for (int i = 0; i < 20; i++) {
 		for (int j = 0; j < 10; j++) {
+			if (j == n - 1) {
+				std::cout << cinema[i][j] << std::endl; 
+			}
+			else {
+				std::cout << cinema[i][j];
+			}
+		}
+	}
+
+	for (int i = 0; i < 20; i++) {
+		for (int j = 0; j < 10 - n + 1; j++) {
 			if (found(cinema, i, j, n)) {
-				std::cout << "rangee " << i + 1 << "sieges de " << j + 1 << " a " << j + n << std::endl;
+				std::cout << "rangee " << i + 1 << " sieges de " << j + 1 << " a " << j + n << std::endl;
 			}
 		}
 	}
 }
+
+int cinema[20][10] = {
+							{0,0,1,1,1,0,1,1,1,1},
+							{1,1,1,0,1,0,1,0,1,1},
+							{0,0,0,1,1,0,0,1,1,1},
+							{1,0,0,0,1,1,0,0,0,1},
+							{1,0,1,0,1,1,0,1,0,0},
+							{0,0,1,0,0,1,1,1,0,1},
+							{1,1,1,0,0,1,1,1,0,0},
+							{1,0,1,0,0,1,1,0,0,0},
+							{1,0,1,0,1,1,1,1,1,0},
+							{1,0,0,0,0,0,0,0,0,0},
+							{1,1,1,1,0,0,0,1,1,0},
+							{0,1,0,0,1,0,0,1,0,1},
+							{0,0,0,0,0,1,0,0,1,1},
+							{0,0,0,1,1,1,1,0,1,1},
+							{0,1,1,0,0,1,1,0,0,0},
+							{0,1,1,0,1,1,0,0,0,0},
+							{0,1,1,1,0,0,0,1,0,1},
+							{1,0,1,0,0,1,0,0,0,1},
+							{1,0,0,0,0,0,0,0,1,1},
+							{0,1,1,0,0,0,1,1,1,0}
+};
 
 //=====================================================================================================
 
 
 //================================================ Exercice5 ==========================================
 
-/* Structure représentant un étudiant */
+/* Structure repr�sentant un �tudiant */
 struct Etudiant {
 	int matricule;
 	std::string departement;
 };
 
-/* Lit un fichier contenant des étudiants et leurs départements, et les stocke dans un tableau. Retourne le nombre d'étudiants lus */
+/* Lit un fichier contenant des �tudiants et leurs d�partements, et les stocke dans un tableau.
+Retourne le nombre d'�tudiants lus */
 int collecte(Etudiant tab[], std::string filename) {
 	std::string mat, dep;
 	std::fstream file(filename);
@@ -185,34 +248,32 @@ int collecte(Etudiant tab[], std::string filename) {
 	return indice;
 }
 
-/* Dénombre les étudiants dans chaque département selon une plage de matricules */
-std::map<std::string, int> denombrement(Etudiant tab[], int start, int end, int taille = 400) {
-	std::map<std::string, int> result = { {"Electrique", 0}, {"Informatique", 0}, {"Logiciel", 0}, {"Biomedical", 0}, {"Autre", 0} };
+/* D�nombre les �tudiants dans chaque d�partement */
+void denombrement(Etudiant tab[], int stats[], int start, int end, int taille = 400) {
 
 	for (int i = 0; i < taille; i++) {
 		if (tab[i].matricule > end || tab[i].matricule < start) {
 			continue;
 		}
 		else if (tab[i].departement == "ELE") {
-			result["Electrique"] += 1;
+			stats[0] += 1;
 		}
 		else if (tab[i].departement == "INF") {
-			result["Informatique"] += 1;
+			stats[1] += 1;
 		}
 		else if (tab[i].departement == "LOG") {
-			result["Logiciel"] += 1;
+			stats[2] += 1;
 		}
 		else if (tab[i].departement == "GBM") {
-			result["Biomedical"] += 1;
+			stats[3] += 1;
 		}
 		else {
-			result["Autre"] += 1;
+			stats[4] += 1;
 		}
 	}
-	return result;
 }
 
-/* collecte les étudiants depuis un fichier, demande une plage de matricules, puis affiche le dénombrement par département */
+/* D�nombre les �tudiants dans chaque d�partement selon une plage de matricules */
 void exercice5(std::string filename = "etudiants.txt") {
 	Etudiant tab[400];
 	
@@ -220,55 +281,45 @@ void exercice5(std::string filename = "etudiants.txt") {
 
 	int start, end;
 
-	std::cout << "Entrez la plage de matricule (0 0 pour terminer) : ";
-	
-	std::cin >> start; std::cin >> end;
+	std::string correspondance[5] = { "Electrique" , "Informatique" , "Logiciel" , "Biomedical" , "Autre" };
 
-	std::map<std::string, int> stats = denombrement(tab, start, end, taille);
+	while (true) {
+		int stats[5] = { 0, 0, 0, 0, 0 };
 
-	std::cout << "Dans cette plage, il y a ces nombres d'etudiants dans chaque domaine : " << std::endl;
+		std::cout << "Entrez la plage de matricule (0 0 pour terminer) : ";
 
-	for (auto dep : stats) {
-		std::cout << dep.first << " : " << dep.second << std::endl;
+		std::cin >> start; std::cin >> end;
+
+		if (start == 0 && end == 0) {
+			break;
+		}
+
+		denombrement(tab, stats, start, end, taille);
+
+		std::cout << "Dans cette plage, il y a ces nombres d'etudiants dans chaque domaine : " << std::endl;
+
+		for (int i = 0; i < 5; i++) {
+			std::cout << correspondance[i] << " : " << stats[i] << std::endl;
+		}
 	}
-
 }
 
 //====================================================================================================
 
 int main()
 {
-	// Test exercice1 avec des triangles de hauteurs : 1, 2, 3, 4, 5, 6
-	exercice1(1);
-	exercice1(2);
-	exercice1(3);
-	exercice1(4);
-	exercice1(5);
-	exercice1(6);
+	// Test exercice1 avec des triangles de hauteurs
+	exercice1();
 
 	// Test exercice2 avec : Chiffrement par decalage
-	std::string phrase; int key;
-
-	while (true) {
-		std::cout << "Veuillez entrer une phrase : "; std::cin >> phrase;
-
-		std::cout << "Veuillez enter la cle de chiffrement (entre 1 et 17) : "; std::cin >> key;
-
-		if (key > 0 && key < 18) {
-			break;
-		}
-		else {
-			std::cout << "La cle de chiffrement entree n'est pas valide";
-		}
-	}
-
-	std::cout << "Voici la phrase encryptee : " << exercice2(phrase, key);
+	exercice2();
+	
 
 	// Test exercice3
 	exercice3();
 
 	// Test exercice4
-	// Pas de test possible pour cette exo
+	exercice4(cinema);
 
 	// Test exercice5
 	exercice5();
