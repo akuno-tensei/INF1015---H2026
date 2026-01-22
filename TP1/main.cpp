@@ -8,7 +8,7 @@
 
 //================================================ Exercice1 ==========================================
 
-/* Affiche un triangle d'�toiles isoc�le de hauteur "n" */
+/* Affiche un triangle d'etoiles isocele de hauteur "n" */
 void exercice1() {
 	int n;
 	std::cout << "Entrer la hauteur du triange : "; 
@@ -42,8 +42,8 @@ void exercice1() {
 
 //================================================ Exercice2 ==========================================
 
-/* D�cale un caract�re C de "key" positions dans l'alphabet */
-char shift(char C, int key) {
+/* D�cale un caractere C de "key" positions dans l'alphabet */
+char decalerCaractere(char C, int key) {
 	char result;
 	int asciiC = (int)C;
 
@@ -61,19 +61,19 @@ char shift(char C, int key) {
 	return result;
 }
 
-/* Chiffre une phrase en d�calant chaque caract�re de "key" positions */
-std::string encrypt(std::string& phrase, int key) {
+/* Chiffre une phrase en d�calant chaque caractere de "key" positions */
+std::string chifferPhrase(std::string& phrase, int key) {
 	for (int i = 0; i < phrase.length(); i++) {
-		phrase[i] = shift(phrase[i], key);
+		phrase[i] = decalerCaractere(phrase[i], key);
 	}
 
 	return phrase;
 }
 
-/* Demande une phrase et une cl� de chiffrement � l'utilisateur et affiche la phrase cryptee */
+/* Demande une phrase et une cle de chiffrement a l'utilisateur et affiche la phrase cryptee */
 void exercice2() {
 	std::string phrase; int key;
-
+	
 	std::cin.ignore();
 	std::cout << "Veuillez entrer une phrase : "; 
 	std::getline(std::cin, phrase);
@@ -91,7 +91,7 @@ void exercice2() {
 		}
 	}
 
-	std::cout << "Voici la phrase encryptee : " << encrypt(phrase, key) << std::endl;
+	std::cout << "Voici la phrase encryptee : " << chifferPhrase(phrase, key) << std::endl;
 }
 
 //=====================================================================================================
@@ -100,7 +100,7 @@ void exercice2() {
 //================================================ Exercice3 ==========================================
 
 /* Trouve le minimum d'un tableau de double */
-double minimum(double tab[], int dim) {
+double trouverMinimum(double tab[], int dim) {
 	double min = tab[0];
 	for (int i = 1; i < dim; i++) {
 		if (tab[i] < min) {
@@ -112,7 +112,7 @@ double minimum(double tab[], int dim) {
 }
 
 /* Trouve le maximum d'un tableau de double */
-double maximum(double tab[], int dim) {
+double trouverMaximum(double tab[], int dim) {
 	double max = tab[0];
 	for (int i = 1; i < dim; i++) {
 		if (tab[i] > max) {
@@ -142,8 +142,8 @@ void exercice3(std::string filename = "aliments.txt") {
 	}
 	file.close();
 
-	std::cout << "Maximum des prix du tableau : " << maximum(tab, taille) << std::endl;
-	std::cout << "Minimum des prix du tableau : " << minimum(tab, taille) << std::endl;
+	std::cout << "Maximum des prix du tableau : " << trouverMaximum(tab, taille) << std::endl;
+	std::cout << "Minimum des prix du tableau : " << trouverMinimum(tab, taille) << std::endl;
 
 }
 
@@ -152,8 +152,8 @@ void exercice3(std::string filename = "aliments.txt") {
 
 //================================================ Exercice4 ==========================================
 
-/* V�rifie si un nombre de places est disponible dans une rang�e � partir d'une colonne donnee */
-bool found(int tab[20][10], int rangee, int colonne, int places) {
+/* Verifie si un nombre de places est disponible dans une rangee a partir d'une colonne donnee */
+bool trouverPlacesLibres(int tab[20][10], int rangee, int colonne, int places) {
 
 	for (int i = colonne; i < colonne + places; i++) {
 		if (tab[rangee][i] == 1) {
@@ -164,7 +164,7 @@ bool found(int tab[20][10], int rangee, int colonne, int places) {
 	return true;
 }
 
-/* Affiche toutes les places disponibles dans un cin�ma */
+/* Affiche toutes les places disponibles dans un cinema */
 void exercice4(int cinema[20][10]) {
 
 	int n;
@@ -173,7 +173,7 @@ void exercice4(int cinema[20][10]) {
 
 	for (int i = 0; i < 20; i++) {
 		for (int j = 0; j < 10; j++) {
-			if (j == n - 1) {
+			if (j == 9) {
 				std::cout << cinema[i][j] << std::endl; 
 			}
 			else {
@@ -184,7 +184,7 @@ void exercice4(int cinema[20][10]) {
 
 	for (int i = 0; i < 20; i++) {
 		for (int j = 0; j < 10 - n + 1; j++) {
-			if (found(cinema, i, j, n)) {
+			if (trouverPlacesLibres(cinema, i, j, n)) {
 				std::cout << "rangee " << i + 1 << " sieges de " << j + 1 << " a " << j + n << std::endl;
 			}
 		}
@@ -219,15 +219,15 @@ int cinema[20][10] = {
 
 //================================================ Exercice5 ==========================================
 
-/* Structure repr�sentant un �tudiant */
+/* Structure repr�sentant un etudiant */
 struct Etudiant {
 	int matricule;
 	std::string departement;
 };
 
-/* Lit un fichier contenant des �tudiants et leurs d�partements, et les stocke dans un tableau.
-Retourne le nombre d'�tudiants lus */
-int collecte(Etudiant tab[], std::string filename) {
+/* Lit un fichier contenant des etudiants et leurs departements, et les stocke dans un tableau.
+Retourne le nombre d'etudiants lus */
+int recupererMatriculeDepartement(Etudiant tab[], std::string filename) {
 	std::string mat, dep;
 	std::fstream file(filename);
 
@@ -249,8 +249,8 @@ int collecte(Etudiant tab[], std::string filename) {
 	return indice;
 }
 
-/* D�nombre les �tudiants dans chaque d�partement */
-void denombrement(Etudiant tab[], int stats[], int start, int end, int taille = 400) {
+/* D�nombre les etudiants dans chaque departement */
+void compterEtudiants(Etudiant tab[], int stats[], int start, int end, int taille = 400) {
 
 	for (int i = 0; i < taille; i++) {
 		if (tab[i].matricule > end || tab[i].matricule < start) {
@@ -274,11 +274,11 @@ void denombrement(Etudiant tab[], int stats[], int start, int end, int taille = 
 	}
 }
 
-/* D�nombre les �tudiants dans chaque d�partement selon une plage de matricules */
+/* D�nombre les etudiants dans chaque departement selon une plage de matricules */
 void exercice5(std::string filename = "etudiants.txt") {
 	Etudiant tab[400];
 	
-	int taille = collecte(tab, filename);
+	int taille = recupererMatriculeDepartement(tab, filename);
 
 	int start, end;
 
@@ -295,7 +295,7 @@ void exercice5(std::string filename = "etudiants.txt") {
 			break;
 		}
 
-		denombrement(tab, stats, start, end, taille);
+		compterEtudiants(tab, stats, start, end, taille);
 
 		std::cout << "Dans cette plage, il y a ces nombres d'etudiants dans chaque domaine : " << std::endl;
 
@@ -309,10 +309,10 @@ void exercice5(std::string filename = "etudiants.txt") {
 
 int main()
 {
-	// Test exercice1 avec des triangles de hauteurs
+	// Test exercice1
 	exercice1();
 
-	// Test exercice2 avec : Chiffrement par decalage
+	// Test exercice2
 	exercice2();
 	
 
