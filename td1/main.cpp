@@ -1,3 +1,17 @@
+/*
+Fichier : main.cpp
+Auteurs : Diego Alejandro Monsalve Rivas (2343317), Paul Tankeu Pajouo (2373265)
+
+Description : 
+	- exercice1 : Affiche avec des "*" un triangle isocele de hauteur fournie par l'utilisateur
+	- exercice2 : Affiche le code Cesar d'une phrase fournie par l'ulisateur (cle de decalage aussi fournie par lui)
+	- exercice3 : Lit un fichier contenant des pairs (produits et valeurs) et affiche le maximum et le minimum des valeurs
+	- exercice4 : Pour un modele de salle de cinema donnee (sous forme de tableau), affiche toutes les possibilites de dispositions sur une meme rangee
+	              en fonction du nombre de places voulus par l'utlisateur
+	- exercice5 : Lit un fichier d'etudiant contenant des pairs (matricule, departement) et affiche le nomnbre d'etudiants par departement
+                  en fonction de la plage de recherche (plage de matricules) fournie par l'utlisateur
+*/
+
 
 #include <iostream>
 
@@ -62,12 +76,13 @@ char decalerCaractere(char C, int key) {
 }
 
 /* Chiffre une phrase en d�calant chaque caractere de "key" positions */
-std::string chifferPhrase(std::string& phrase, int key) {
+std::string chifferPhrase(const std::string& phrase, int key) {
+	std::string result = "";
 	for (int i = 0; i < phrase.length(); i++) {
-		phrase[i] = decalerCaractere(phrase[i], key);
+		result += decalerCaractere(phrase[i], key);
 	}
 
-	return phrase;
+	return result;
 }
 
 /* Demande une phrase et une cle de chiffrement a l'utilisateur et affiche la phrase cryptee */
@@ -221,7 +236,7 @@ int cinema[20][10] = {
 
 /* Structure repr�sentant un etudiant */
 struct Etudiant {
-	int matricule;
+	int matricule = 0;
 	std::string departement;
 };
 
@@ -276,7 +291,7 @@ void compterEtudiants(Etudiant tab[], int stats[], int start, int end, int taill
 
 /* D�nombre les etudiants dans chaque departement selon une plage de matricules */
 void exercice5(std::string filename = "etudiants.txt") {
-	Etudiant tab[400];
+	Etudiant* tab = new Etudiant[400];
 	
 	int taille = recupererMatriculeDepartement(tab, filename);
 
@@ -303,6 +318,7 @@ void exercice5(std::string filename = "etudiants.txt") {
 			std::cout << correspondance[i] << " : " << stats[i] << std::endl;
 		}
 	}
+	delete[] tab;
 }
 
 //====================================================================================================
