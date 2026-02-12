@@ -9,9 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Documentation">
-      <UniqueIdentifier>{8066e00c-b0de-4e03-aac1-b8bda3737425}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sources Bibliotheques">
       <UniqueIdentifier>{b0472a10-d89b-4275-b6d3-376a7a916267}</UniqueIdentifier>
     </Filter>
@@ -26,10 +23,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Developpeur.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ListeDeveloppeurs.cpp">
+    <ClCompile Include="lectureFichierJeux.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -37,30 +31,16 @@
     <Text Include="CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\doc\Vcpkg.md">
-      <Filter>Documentation</Filter>
-    </None>
-    <None Include="..\doc\Classroom.md">
-      <Filter>Documentation</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Designer.hpp">
+    <ClInclude Include="Concepteur.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Developpeur.hpp">
+    <ClInclude Include="lectureFichierJeux.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Jeu.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ListeDesigners.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ListeDeveloppeurs.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ListeJeux.hpp">
+    <ClInclude Include="Liste.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

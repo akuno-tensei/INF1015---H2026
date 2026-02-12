@@ -1,4 +1,13 @@
-﻿#include "Jeu.hpp"
+﻿/* 
+	Fichier : main.cpp
+	Auteurs : Diego Alejandro Monsalve Rivas (2343317), Paul Tankeu Pajouo (2373265)
+	Date : 11 février 2026
+	Crée le 28 janvier 2026
+*/
+
+
+#include "Jeu.hpp"
+#include "ListeDeveloppeurs.hpp"
 #include <iostream>
 #include <fstream>
 #include <span>
@@ -34,49 +43,140 @@ string lireString(istream& fichier)
 }
 #pragma endregion
 
-//TODO: Fonction qui cherche un designer par son nom dans une ListeJeux.  Devrait utiliser span.
+// Fonction qui cherche un designer par son nom dans une ListeJeux.  Devrait utiliser span.
+Designer* chercherDesignerParNom(const ListeJeux& listeJeux, const string& nomDesigner) {
+	for (Jeu* jeu : span(listeJeux.elements, listeJeux.nElements)) {
+		for (Designer* designer : span(jeu->designers.elements, jeu->designers.nElements)) {
+			if (designer->nom == nomDesigner) {
+				return designer;
+			}
+		}
+	}
+	return nullptr;
+}
 
 
 Designer* lireDesigner(istream& fichier)
 {
-	Designer designer = {};
-	designer.nom = lireString(fichier);
-	designer.anneeNaissance = lireUint16(fichier);
-	designer.pays = lireString(fichier);
+	Designer* designer = new Designer;
+	designer->nom = lireString(fichier);
+	designer->anneeNaissance = lireUint16(fichier);
+	designer->pays = lireString(fichier);
+	designer->listeJeuxParticipes.capacite = 0;
+	designer->listeJeuxParticipes.nElements = 0;
+	designer->listeJeuxParticipes.elements = nullptr;
 
-	//TODO: Ajouter en mémoire le designer lu. Il faut revoyer le pointeur créé.
-	// TIP: Afficher un message lorsque l'allocation du designer est réussie pour aider au débogage.
-	// Vous pouvez enlever l'affichage une fois que le tout fonctionne.
-
-
-	cout << designer.nom << endl;  //TODO: Enlever cet affichage temporaire servant à voir que le code fourni lit bien les jeux.
-	return {}; //TODO: Retourner le pointeur vers le designer crée.
+	return designer; // Retourner le pointeur vers le designer crée.
 }
 
-//TODO: Fonction qui change la taille du tableau de jeux de ListeJeux.
+// Fonction qui change la taille du tableau de jeux de ListeJeux.
+void redimensionnerListeJeux(ListeJeux& listeJeux) {
+	const unsigned nouvelleCapacite = listeJeux.capacite != 0 ? listeJeux.capacite * 2 : 2 ;
 
-//TODO: Fonction pour ajouter un Jeu à ListeJeux.
+	listeJeux.capacite = nouvelleCapacite;
 
-//TODO: Fonction qui enlève un jeu de ListeJeux.
+	Jeu** nouveauTableau = new Jeu* [nouvelleCapacite];
 
-Jeu* lireJeu(istream& fichier)
-{
-	Jeu jeu = {};
-	jeu.titre = lireString(fichier);
-	jeu.anneeSortie = lireUint16(fichier);
-	jeu.developpeur = lireString(fichier);
-	jeu.designers.nElements = lireUint8(fichier);
-
-	//TODO: Ajouter en mémoire le jeu lu. Il faut revoyer le pointeur créé.
-	// TIP: Afficher un message lorsque l'allocation du jeu est réussie pour aider au débogage.
-	// Vous pouvez enlever l'affichage une fois que le tout fonctionne.
-
-
-	for ([[maybe_unused]] int i : iter::range(jeu.designers.nElements)) {
-		lireDesigner(fichier);  //TODO: Mettre le designer dans la liste des designer du jeu.
-		//TODO: Ajouter le jeu à la liste des jeux auquel a participé le designer.
+	for (unsigned i = 0; i < listeJeux.nElements; ++i) {
+		nouveauTableau[i] = listeJeux.elements[i];
 	}
-	return {}; //TODO: Retourner le pointeur vers le nouveau jeu.
+
+	delete[] listeJeux.elements;
+	listeJeux.elements = nouveauTableau;
+}
+
+// Fonction pour ajouter un Jeu à ListeJeux.
+void ajouterJeuAListeJeux(ListeJeux& listeJeux, Jeu* jeu) {
+	if (listeJeux.nElements == listeJeux.capacite) {
+		redimensionnerListeJeux(listeJeux);
+	}
+	listeJeux.elements[listeJeux.nElements] = jeu;
+	listeJeux.nElements++;
+}
+
+// Fonction qui change la taille du tableau de Designers d'un jeu.
+void redimensionnerListeDesigners(ListeDesigners& listeDesigners) {
+	const unsigned nouvelleCapacite = listeDesigners.capacite != 0 ? listeDesigners.capacite * 2 : 2;
+
+	listeDesigners.capacite = nouvelleCapacite;
+
+	Designer** nouveauTableau = new Designer* [nouvelleCapacite];
+
+	for (unsigned i = 0; i < listeDesigners.nElements; ++i) {
+		nouveauTableau[i] = listeDesigners.elements[i];
+	}
+
+	delete[] listeDesigners.elements;
+
+	listeDesigners.elements = nouveauTableau;
+}
+
+// Fonction pour ajouter un Designer à ListeDesigners d'un Jeu.
+void ajouterDesignerAListeDesigners(Jeu* jeu, Designer* designer) {
+	if (jeu->designers.nElements == jeu->designers.capacite) {
+		redimensionnerListeDesigners(jeu->designers);
+	}
+	jeu->designers.elements[jeu->designers.nElements] = designer;
+	jeu->designers.nElements++;
+}
+
+// Fonction qui enlève un jeu de ListeJeux.
+void enleverJeuDeListeJeux(ListeJeux& listeJeux, Jeu* jeu) {
+	Jeu** nouveauTableau = new Jeu* [listeJeux.capacite];
+
+	unsigned index = 0;
+
+	for (unsigned i = 0; i < listeJeux.nElements; ++i) {
+		if (listeJeux.elements[i] != jeu) {
+			nouveauTableau[index] = listeJeux.elements[i];
+			index++;
+		}
+	}
+
+	listeJeux.nElements--;
+	delete[] listeJeux.elements;
+
+	listeJeux.elements = nouveauTableau;
+}
+
+
+Jeu* lireJeu(istream& fichier, ListeJeux& listeJeux) {
+	Jeu* jeu = new Jeu;
+	jeu->titre = lireString(fichier);
+	jeu->anneeSortie = lireUint16(fichier);
+	jeu->developpeur = lireString(fichier);
+
+	const unsigned capacite = lireUint8(fichier);
+
+	jeu->designers.capacite = 0;
+	jeu->designers.nElements = 0;
+	jeu->designers.elements = nullptr;
+
+	for ([[maybe_unused]] int i : iter::range(capacite)) {
+		Designer* designer = lireDesigner(fichier);  
+		
+		
+		Designer* siDesignerExistant = chercherDesignerParNom(listeJeux, designer->nom);
+
+		if (siDesignerExistant != nullptr) {
+			delete designer;
+
+			// Mettre le designer dans la liste des designer du jeu.
+			ajouterDesignerAListeDesigners(jeu, siDesignerExistant);
+
+			// Ajouter le jeu à la liste des jeux auquel a participé le designer.
+			ajouterJeuAListeJeux(siDesignerExistant->listeJeuxParticipes, jeu);
+		}
+		else {
+			// Mettre le designer dans la liste des designer du jeu.
+			ajouterDesignerAListeDesigners(jeu, designer);
+
+			// Ajouter le jeu à la liste des jeux auquel a participé le designer.
+			ajouterJeuAListeJeux(designer->listeJeuxParticipes, jeu);
+		}
+
+	}
+	return jeu; //  Retourner le pointeur vers le nouveau jeu.
 }
 
 ListeJeux creerListeJeux(const string& nomFichier)
@@ -84,29 +184,94 @@ ListeJeux creerListeJeux(const string& nomFichier)
 	ifstream fichier(nomFichier, ios::binary);
 	fichier.exceptions(ios::failbit);
 	int nElements = lireUint16(fichier);
+
 	ListeJeux listeJeux = {};
+	listeJeux.capacite = 0;
+	listeJeux.nElements = 0;
+	listeJeux.elements = nullptr;
+
 	for ([[maybe_unused]] int n : iter::range(nElements))
 	{
-		lireJeu(fichier); //TODO: Ajouter le jeu à la ListeJeux.
+		Jeu* jeu = lireJeu(fichier, listeJeux); 
+		
+		// Ajouter le jeu à la ListeJeux.
+		ajouterJeuAListeJeux(listeJeux, jeu);
 	}
 
-	return {}; //TODO: Renvoyer la ListeJeux.
+	return listeJeux; // Renvoyer la ListeJeux.
 }
 
-//TODO: Fonction pour détruire un jeu (libération de mémoire allouée).
-// TIP: Afficher un message lorsque le jeu est détruit pour aider au débogage.
-// Vous pouvez enlever l'affichage une fois que le tout fonctionne.
+// Fonction pour détruire un jeu (libération de mémoire allouée).
+void detruireJeu(Jeu* jeu, ListeJeux& listeJeux) {
+	// Enlever le jeu de la liste des jeux auquel a participé les designers du jeu.
+
+	unsigned taille = jeu->designers.nElements;
+
+	for (Designer* designer : span(jeu->designers.elements, jeu->designers.nElements)) {
+		enleverJeuDeListeJeux(designer->listeJeuxParticipes, jeu);
+		if (designer->listeJeuxParticipes.nElements == 0) {
+			delete[] designer->listeJeuxParticipes.elements;
+			delete designer;
+		}
+	}
+	enleverJeuDeListeJeux(listeJeux, jeu);
+
+	for (unsigned i = 0; i < taille; ++i) {
+		jeu->designers.elements[i] = nullptr;
+	}
+
+	jeu->designers.nElements = 0;
+	jeu->designers.capacite = 0;
+
+	delete[] jeu->designers.elements;
+	delete jeu;
+}
 
 
-//TODO: Fonction pour détruire une ListeJeux et tous ses jeux.
+// Fonction pour détruire une ListeJeux et tous ses jeux.
+void detruireListeJeux(ListeJeux& listeJeux) {
 
-//TODO: Fonction pour afficher les infos d'un designer.
+	const unsigned nElements = listeJeux.nElements;
 
-//TODO: Fonction pour afficher les infos d'un jeu ainsi que ses designers.
+	for (unsigned i = 0; i < nElements; i++) {
+		detruireJeu(listeJeux.elements[0], listeJeux);
+	}
+
+	listeJeux.nElements = 0;
+	listeJeux.capacite = 0;
+
+	delete[] listeJeux.elements;
+}
+
+// Fonction pour afficher les infos d'un designer.
+void afficherDesigner(const Designer* designer) {
+	cout << "Nom: " << designer->nom << endl;
+	cout << "Année de naissance: " << designer->anneeNaissance << endl;
+	cout << "Pays: " << designer->pays << endl;
+}
+
+// Fonction pour afficher les infos d'un jeu ainsi que ses designers.
+void afficherJeu(const Jeu* jeu) {
+	cout << "Titre: " << jeu->titre << endl;
+	cout << "Année de sortie: " << jeu->anneeSortie << endl;
+	cout << "Développeur: " << jeu->developpeur << endl;
+	cout << "Designers:" << endl;
+	for (Designer* designer : span(jeu->designers.elements, jeu->designers.nElements)) {
+		afficherDesigner(designer);
+		cout << endl;
+	}
+}
 
 
-//TODO: Fonction pour afficher tous les jeux de ListeJeux, séparés par un ligne.
 // Votre ligne de séparation doit être différent de celle utilisée dans le main.
+
+// Fonction pour afficher tous les jeux de ListeJeux, séparés par un ligne.
+void afficherListeJeux(const ListeJeux& listeJeux) {
+	for (Jeu* jeu : span(listeJeux.elements, listeJeux.nElements)) {
+		afficherJeu(jeu);
+		cout << "\n\033[34m────────────────────────────────────────\033[0m\n" << endl;
+	}
+}
 
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
@@ -120,18 +285,73 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 
 	int* fuite = new int;  // Pour vérifier que la détection de fuites fonctionne; un message devrait dire qu'il y a une fuite à cette ligne.
 
-	creerListeJeux("jeux.bin"); //TODO: Appeler correctement votre fonction de création de la liste de jeux.
+
+	/* ====================================================================== Partie 1 =================================================================== */
+
+	ListeJeux listeJeux = creerListeJeux("jeux.bin"); // Appeler correctement votre fonction de création de la liste de jeux.
 
 	static const string ligneSeparation = "\n\033[35m════════════════════════════════════════\033[0m\n";
 	cout << ligneSeparation << endl;
 	cout << "Premier jeu de la liste :" << endl;
-	//TODO: Afficher le premier jeu de la liste (en utilisant la fonction).  Devrait être Chrono Trigger.
+
+	//Afficher le premier jeu de la liste (en utilisant la fonction).  Devrait être Chrono Trigger.
+	afficherJeu(listeJeux.elements[0]);
+
 
 	cout << ligneSeparation << endl;
 
-	//TODO: Appel à votre fonction d'affichage de votre liste de jeux.
+	// Appel à votre fonction d'affichage de votre liste de jeux.
+	afficherListeJeux(listeJeux);
 
-	//TODO: Faire les appels à toutes vos fonctions/méthodes pour voir qu'elles fonctionnent et avoir 0% de lignes non exécutées dans le programme (aucune ligne rouge dans la couverture de code; c'est normal que les lignes de "new" et "delete" soient jaunes).  Vous avez aussi le droit d'effacer les lignes du programmes qui ne sont pas exécutée, si finalement vous pensez qu'elle ne sont pas utiles.
+	/* ====================================================================================================================================================== */
 
-	//TODO: Détruire tout avant de terminer le programme.  Devrait afficher "Aucune fuite detectee." a la sortie du programme; il affichera "Fuite detectee:" avec la liste des blocs, s'il manque des delete.
+	/* ======================================================================= Partie 2 ===================================================================== */
+
+	// Faire les appels à toutes vos fonctions/méthodes pour voir qu'elles fonctionnent et avoir 0% de lignes non exécutées dans le programme (aucune ligne rouge dans la couverture de code; c'est normal que les lignes de "new" et "delete" soient jaunes).  Vous avez aussi le droit d'effacer les lignes du programmes qui ne sont pas exécutée, si finalement vous pensez qu'elle ne sont pas utiles.
+	ListeDeveloppeurs* listeDeveloppeurs = new ListeDeveloppeurs;
+
+	Developpeur* square = new Developpeur{ "Square"s };
+	square->mettreAJourListeJeux(listeJeux);
+
+	Developpeur* nintendo = new Developpeur{"Nintendo"s};
+	nintendo->mettreAJourListeJeux(listeJeux);
+
+	Developpeur* konami = new Developpeur{ "Konami"s };
+	konami->mettreAJourListeJeux(listeJeux);
+
+	Developpeur* maxis = new Developpeur{ "Maxis"s };
+	maxis->mettreAJourListeJeux(listeJeux);
+
+	Developpeur* sega = new Developpeur{ "Sega"s };
+	sega->mettreAJourListeJeux(listeJeux);
+
+	listeDeveloppeurs->ajouterDeveloppeur(*square);
+	listeDeveloppeurs->ajouterDeveloppeur(*nintendo);
+	listeDeveloppeurs->ajouterDeveloppeur(*konami);
+	listeDeveloppeurs->ajouterDeveloppeur(*maxis);
+	listeDeveloppeurs->ajouterDeveloppeur(*square);
+	listeDeveloppeurs->ajouterDeveloppeur(*sega);
+	
+	listeDeveloppeurs->afficher();
+
+	// retrait de developpeurs
+	listeDeveloppeurs->retirerDeveloppeur(*konami);
+	listeDeveloppeurs->retirerDeveloppeur(*maxis);
+	listeDeveloppeurs->retirerDeveloppeur(*square);
+	listeDeveloppeurs->retirerDeveloppeur(*sega);
+
+	cout << endl << endl << "      -------  Après retrait -------" << endl << endl;
+	listeDeveloppeurs->afficher();
+
+	/* ======================================================================================================================================================= */
+
+
+	// Détruire tout avant de terminer le programme.  Devrait afficher "Aucune fuite detectee." a la sortie du programme; il affichera "Fuite detectee:" avec la liste des blocs, s'il manque des delete.
+	delete square; delete nintendo; delete konami; delete maxis; delete sega;
+
+	delete listeDeveloppeurs;
+
+	detruireListeJeux(listeJeux);
+
+	delete fuite;
 }
