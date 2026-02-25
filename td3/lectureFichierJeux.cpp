@@ -1,4 +1,15 @@
-﻿// Fonctions pour lire le fichier binaire.
+﻿/*
+	Fichier : lectureFichierJeux.cpp
+	Auteur : Paul Tankeu Pajouo (2373265), Diego Alejandro Monsalve Rivas (2343317)
+	Crée le : 2026-02-10
+	Modifié le : 2026-02-24
+
+	Description: Ce fichier contient l'implémentation des fonctions déclarées dans lectureFichierJeux.hpp
+*/
+
+
+// Fonctions pour lire le fichier binaire.
+#pragma once
 #include "lectureFichierJeux.hpp"
 #include <fstream>
 #include <cstdint>
@@ -19,6 +30,7 @@ using UInt16 = uint16_t;
 #pragma region "Fonctions de lecture de base"
 //TODO: Remplacer lireUint8 et lireUint16 par une seule fonction générique qui permet les deux, mais permettre uniquement des types qui sont is_trivially_copyable_v (un trait de type).
 template <typename T>
+requires std::is_trivially_copyable_v<T>
 T lireType(istream& fichier) {
 	T valeur = 0;
 	fichier.read(reinterpret_cast<char*>(&valeur), sizeof(valeur));
@@ -79,7 +91,6 @@ shared_ptr<Concepteur> lireConcepteur(ListeJeux& lj, istream& f) {
 
 	concepteur = std::make_shared<Concepteur>(nom, anneeNaissance, pays);
 
-	cout << "C: " << nom << endl;  //TODO: Enlever cet affichage temporaire servant à voir que le code fourni lit bien les jeux.
 	return concepteur;
 }
 
@@ -101,9 +112,6 @@ shared_ptr<Jeu> lireJeu(istream& f, ListeJeux& lj)
 		listeConcepteurs.ajouterElement(concepteur);
 	}
 
-
-
-	cout << "J: " << titre << endl;  //TODO: Enlever cet affichage temporaire servant à voir que le code fourni lit bien les jeux.
 	return jeu;
 }
 

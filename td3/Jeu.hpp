@@ -1,4 +1,14 @@
-﻿#pragma once
+﻿/*
+	Fichier : Jeu.hpp
+	Auteur : Paul Tankeu Pajouo (2373265), Diego Alejandro Monsalve Rivas (2343317)
+	Crée le : 2026-02-10
+	Modifié le : 2026-02-24
+
+	Description: Ce fichier contient la déclaration de la classe Jeu, qui représente un jeu vidéo, avec ses attributs et méthodes.
+*/
+
+
+#pragma once
 #include <string>
 #include "Concepteur.hpp"
 #include "Liste.hpp"
@@ -7,64 +17,45 @@ using ListeConcepteurs = Liste<Concepteur>;
 
 class Jeu {
 public:
-	//TODO: un constructeur par défaut et un constructeur paramétré.
-	Jeu() {
-		titre_ = "Inconnu";
-		anneeSortie_ = 0;
-		developpeur_ = "Inconnu";
-	}
+	// Constructeur par défaut 
+	Jeu();
 
-	Jeu(std::string titre, unsigned anneeSortie, std::string developpeur) {
-		titre_ = titre;
-		anneeSortie_ = anneeSortie;
-		developpeur_ = developpeur;
-	}
+	// Constructeur paramétré.
+	Jeu(std::string titre, unsigned anneeSortie, std::string developpeur);
 
-	Jeu(const Jeu& autre) {
-		titre_ = autre.titre_;
-		anneeSortie_ = autre.anneeSortie_;
-		developpeur_ = autre.developpeur_;
-		listeConcepteurs_ = autre.listeConcepteurs_;  // La classe Liste doit faire une copie profonde de ses éléments.
-	}
-
-	const std::string& getTitre() const     { return titre_; }
-	void setTitre(std::string titre)        { titre_ = move(titre); }
-	unsigned getAnneeSortie() const         { return anneeSortie_; }
-	void setAnneeSortie(unsigned annee)     { anneeSortie_ = annee; }
-	const std::string& getDeveloppeur() const { return developpeur_; }
-	void setDeveloppeur(std::string developpeur) { developpeur_ = move(developpeur); }
+	// Constructeur de copie
+	Jeu(const Jeu& autre);
 
 	// surchage de l'opérateur = 
-	Jeu& operator=(const Jeu& autre) {
-		if (this != &autre) {
-			titre_ = autre.titre_;
-			anneeSortie_ = autre.anneeSortie_;
-			developpeur_ = autre.developpeur_;
-			listeConcepteurs_ = autre.listeConcepteurs_;  // La classe Liste doit faire une copie profonde de ses éléments.
-		}
-		return *this;
-	}
+	Jeu& operator=(const Jeu& autre);
 
-	//TODO: Pouvoir accéder à la liste de concepteurs.
-	ListeConcepteurs& accederListeConcepteurs() { return listeConcepteurs_; }
+	const std::string& getTitre() const;
+
+	void setTitre(std::string titre);
+
+	unsigned getAnneeSortie() const;
+
+	void setAnneeSortie(unsigned annee);
+
+	const std::string& getDeveloppeur() const;
+
+	void setDeveloppeur(std::string developpeur);
+
+
+	// Accéder à la liste de concepteurs.
+	ListeConcepteurs& accederListeConcepteurs();
 
 	// Méthode pour changer un concepteur de la liste en connaissant son indice
-	void changerConcepteur(unsigned indice, std::shared_ptr<Concepteur> autreConcepteur) {
-		listeConcepteurs_[indice] = autreConcepteur;
-	}
+	void changerConcepteur(unsigned indice, std::shared_ptr<Concepteur> autreConcepteur);
 
-	//TODO: Votre méthode pour trouver un concepteur selon un critère donné par une lambda, en utilisant la méthode de Liste.
-	std::shared_ptr<Concepteur> trouverConcepteur(const std::function<bool(std::shared_ptr<Concepteur>)>& critere) const {
-		return listeConcepteurs_.trouverElement(critere);
-	}
+	// Trouver un concepteur selon un critère donné par une lambda, en utilisant la méthode de Liste.
+	std::shared_ptr<Concepteur> trouverConcepteur(const std::function<bool(std::shared_ptr<Concepteur>)>& critere) const;
 
 private:
 	std::string titre_;
 	unsigned anneeSortie_;
 	std::string developpeur_;
 
-	//TODO: Attribut de la liste des concepteurs du jeu
+	// Attribut de la liste des concepteurs du jeu
 	ListeConcepteurs listeConcepteurs_;
 };
-
-// struct ListeJeux{};  //TODO: Remplacer cette définition (qui est ici juste pour que le code fourni compile) pour que ListeJeux soit une Liste<Jeu> .

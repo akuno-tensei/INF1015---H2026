@@ -1,4 +1,17 @@
-﻿#include <iostream>
+﻿/*
+	Fichier : main.cpp
+	Auteur : Paul Tankeu Pajouo (2373265), Diego Alejandro Monsalve Rivas (2343317)
+	Crée le : 2026-02-10
+	Modifié le : 2026-02-24
+
+	Description: Ce fichier contient le main du projet, qui teste les différentes fonctionnalités demandées, 
+	notamment la lecture du fichier binaire, l'affichage des jeux et concepteurs, la recherche de concepteur selon un critère donné par une lambda, 
+	l'ajout d'un jeu à la liste de jeux, 
+	et la copie d'un jeu pour vérifier que la copie profonde de la liste de concepteurs est bien faite.
+*/
+
+#pragma once
+#include <iostream>
 #include <fstream>
 #include "Liste.hpp"
 #include "Concepteur.hpp"
@@ -68,45 +81,71 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 
 	// Obtenir le jeu 3 et afficher son titre pour vérifier que la lecture du fichier a fonctionné.
 	cout << ligneSeparation << endl;
+
 	cout << "listeJeux[2] : " << listeJeux[2]->getTitre() << endl << endl;
 
+	cout << ligneSeparation << endl;
+
 	// Tester la fonction trouverConcepteur de lectureFichierJeux, qui cherche un concepteur dans la liste de jeux selon un nom donné.
+	cout << ligneSeparation << endl;
+
 	cout << "---------- Test de trouverConcepteur de lectureFichierJeux avec critère de nom 'Yoshinori Kitase' ----------" << endl;
 	string nom = "Yoshinori Kitase";
+
 	cout << chercherConcepteur(listeJeux, nom) << endl << endl;
 
+	cout << ligneSeparation << endl;
+
 	// Tester la méthode trouverConcepteur de Jeu, qui cherche un concepteur dans la liste de concepteurs du jeu selon un critère donné par une lambda.
+	cout << ligneSeparation << endl;
+
 	auto critere = [](std::shared_ptr<Concepteur> concepteur) { return concepteur->getNom() == "Yoshinori Kitase"; };
 
-	cout << listeJeux[0]->trouverConcepteur(critere)<< endl;
+	cout << "Pour listeJeux[0] -> "  << listeJeux[0]->trouverConcepteur(critere) << endl;
 
-	cout << listeJeux[1]->trouverConcepteur(critere) << endl;
+	cout << "Pour listeJeux[1] -> " << listeJeux[1]->trouverConcepteur(critere) << endl;
+
+	cout << ligneSeparation << endl;
 
 	// Afficher la liste de jeux pour vérifier que l'affichage fonctionne avec la surcharge d'opérateur .
+	cout << ligneSeparation << endl;
+
 	cout << listeJeux << endl;
+
+	cout << ligneSeparation << endl;
 	
 	// Tester la surcharge d'opérateur << pour un jeu individuel. 
 	// Tester l'ajout d'un jeu déjà présent dans la liste, pour vérifier que la vérification d'existence dans la liste fonctionne.
+	cout << ligneSeparation << endl;
+
 	std::shared_ptr<Jeu> jeu = listeJeux[2];
 	listeJeux.ajouterElement(jeu);
 
-	cout << endl;
+	cout << ligneSeparation << endl;
 
 	// Tester la copie d'un jeu, pour vérifier que la copie profonde de la liste de concepteurs est bien faite.
-	shared_ptr<Jeu> copieJeu = std::make_shared<Jeu>(*(listeJeux[2]));
+	cout << ligneSeparation << endl;
 
-	copieJeu->changerConcepteur(0, listeJeux[0]->accederListeConcepteurs()[1]); // modification de la copie du jeu
+	Jeu copieJeu = *(listeJeux[2]);
 
-	copieJeu->accederListeConcepteurs()[1] = listeJeux[0]->accederListeConcepteurs()[1]; // modification de la copie du jeu
+	copieJeu.changerConcepteur(0, listeJeux[0]->accederListeConcepteurs()[0]); // modification de la copie du jeu
+
+	copieJeu.accederListeConcepteurs()[1] = listeJeux[0]->accederListeConcepteurs()[1]; // modification de la copie du jeu
 
 	cout << "---------- Copie du jeu 3 avec modification de la copie ----------" << endl << endl;
 	cout << copieJeu << endl;
 	cout << "---------- Après modification de la copie du jeu 3 ----------" << endl << endl;
-	cout << listeJeux[2];
+	cout << listeJeux[2] << endl;
 
-	bool pareil = listeJeux[2]->accederListeConcepteurs()[0] == copieJeu->accederListeConcepteurs()[];
+	cout << ligneSeparation << endl;
+
+	cout << ligneSeparation << endl;
+
+	bool pareil = listeJeux[2]->accederListeConcepteurs()[0] == copieJeu.accederListeConcepteurs()[0];
 
 	cout << "Adresses des premiers concepteurs égales  (1 : True, 0 : False) ??" << endl << "Réponse : " << pareil << endl;
+
+	cout << ligneSeparation << endl;
 	//TODO: S'assurer qu'aucune ligne de code est non couverte.
 	//NOTE: Il n'est pas nécessaire de couvrir les getters/setters simples fournis; il faut tester si vous en ajoutez ou les modifiez.
 	//NOTE: Pour Liste, qui est générique, on demande de couvrir uniquement pour Liste<Jeu>, pas pour tous les types.
