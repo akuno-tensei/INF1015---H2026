@@ -1,0 +1,21 @@
+#pragma once
+#include <string>
+
+enum class Couleur {
+	NOIR,
+	ROUGE,
+	VERT,
+	JAUNE,
+	BLEU,
+	MAGENTA,
+	CYAN,
+	BLANC,
+	NOIR_BRILLANT,
+	ROUGE_VIF,
+	VERT_VIF,
+	JAUNE_VIF,
+	BLEU_VIF,
+	MAGENTA_VIF,
+	CYAN_BRILLANT,
+	BLANC_ECLATANT
+};

@@ -26,6 +26,9 @@ public:
 	// Constructeur de copie
 	Jeu(const Jeu& autre);
 
+	// Destructeur
+	~Jeu();
+
 	// surchage de l'opérateur = 
 	Jeu& operator=(const Jeu& autre);
 
@@ -44,6 +47,8 @@ public:
 
 	// Accéder à la liste de concepteurs.
 	ListeConcepteurs& accederListeConcepteurs();
+
+	const ListeConcepteurs& accederListeConcepteurs() const;
 
 	// Méthode pour changer un concepteur de la liste en connaissant son indice
 	void changerConcepteur(unsigned indice, std::shared_ptr<Concepteur> autreConcepteur);

@@ -30,9 +30,18 @@ public:
 		*this = autre;
 	}
 
+	// Destructeur
+	~Liste() {
+		capacite_ = 0;
+		nElements_ = 0;
+		elements_.reset();
+	}
+
 	// Surcharge de l'opérateur [] pour accéder à un élément de la liste.
 	std::shared_ptr<T>& operator[] (unsigned indice) const {
-		return elements_[indice];
+		if (indice <= nElements_ && indice >= 0) {
+			return elements_[indice];
+		}		
 	}
 
 	// Surchage de l'opérateur d'affectation = pour la copie
@@ -48,15 +57,14 @@ public:
 	// Méthode pour ajouter un élément à la liste
 	void ajouterElement(std::shared_ptr<T> element) {
 		if (capacite_ == nElements_) {
-			redimensionnerListe();
+			this->redimensionnerListe();
 		}
 
 		auto critere = [&element](std::shared_ptr<T> elem) { return elem == element; };
 		std::shared_ptr<T> elementPresent = this->trouverElement(critere);
 
 		if (elementPresent != nullptr) {
-			std::cerr << "L'élément est déjà présent dans la liste." << std::endl;
-			return;
+			std::cout << "L'élément est déjà présent dans la liste." << std::endl;
 		}
 		else {
 			elements_[nElements_] = element;

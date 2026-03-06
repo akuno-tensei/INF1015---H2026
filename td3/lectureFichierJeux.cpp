@@ -28,7 +28,7 @@ using UInt8  = uint8_t;
 using UInt16 = uint16_t;
 
 #pragma region "Fonctions de lecture de base"
-//TODO: Remplacer lireUint8 et lireUint16 par une seule fonction générique qui permet les deux, mais permettre uniquement des types qui sont is_trivially_copyable_v (un trait de type).
+// Remplacer lireUint8 et lireUint16 par une seule fonction générique qui permet les deux, mais permettre uniquement des types qui sont is_trivially_copyable_v (un trait de type).
 template <typename T>
 requires std::is_trivially_copyable_v<T>
 T lireType(istream& fichier) {
@@ -63,7 +63,7 @@ string lireString(istream& fichier)
 
 shared_ptr<Concepteur> chercherConcepteur(ListeJeux& listeJeux, const string& nom)
 {
-	//TODO: Compléter la fonction (équivalent de trouverDesigner du TD2).
+	// Compléter la fonction (équivalent de trouverDesigner du TD2).
 	auto critere = [&nom](std::shared_ptr<Concepteur> concepteur) { return concepteur->getNom() == nom; };
 
 	for (unsigned i = 0; i < listeJeux.size(); ++i) {
@@ -83,7 +83,7 @@ shared_ptr<Concepteur> lireConcepteur(ListeJeux& lj, istream& f) {
 	unsigned anneeNaissance = lireType<uint16_t>(f);
 	string pays             = lireString(f);
 
-	//TODO: Compléter la fonction (équivalent de lireDesigner du TD2).
+	// Compléter la fonction (équivalent de lireDesigner du TD2).
 	std::shared_ptr<Concepteur> concepteur = chercherConcepteur(lj, nom);
 	if (concepteur != nullptr) {
 		return concepteur;
@@ -106,7 +106,7 @@ shared_ptr<Jeu> lireJeu(istream& f, ListeJeux& lj)
 
 	ListeConcepteurs& listeConcepteurs = jeu->accederListeConcepteurs();
 
-	//TODO: Compléter la fonction (équivalent de lireJeu du TD2).
+	// Compléter la fonction (équivalent de lireJeu du TD2).
 	for (unsigned int i = 0; i < nConcepteurs; i++) {
 		std::shared_ptr<Concepteur> concepteur = lireConcepteur(lj, f);
 		listeConcepteurs.ajouterElement(concepteur);
@@ -120,7 +120,7 @@ ListeJeux creerListeJeux(const string& nomFichier) {
 	f.exceptions(ios::failbit);
 	int nElements = lireType<uint16_t>(f);
 
-	//TODO: Compléter la fonction.
+	// Compléter la fonction.
 	ListeJeux listeJeux;
 
 	for ([[maybe_unused]] int i : iter::range(nElements)) {

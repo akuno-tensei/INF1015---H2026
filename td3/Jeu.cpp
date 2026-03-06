@@ -26,6 +26,12 @@ Jeu::Jeu(const Jeu& autre) {
 	*this = autre;
 }
 
+Jeu::~Jeu() {
+	titre_ = "Inconnu";
+	anneeSortie_ = 0;
+	developpeur_ = "Inconnu";
+}
+
 Jeu&  Jeu::operator=(const Jeu& autre) {
 	if (this != &autre) {
 		titre_ = autre.titre_;
@@ -49,6 +55,8 @@ const std::string& Jeu::getDeveloppeur() const { return developpeur_; }
 void Jeu::setDeveloppeur(std::string developpeur) { developpeur_ = move(developpeur); }
 
 ListeConcepteurs& Jeu::accederListeConcepteurs() { return listeConcepteurs_; }
+
+const ListeConcepteurs& Jeu::accederListeConcepteurs() const { return listeConcepteurs_; }
 
 void Jeu::changerConcepteur(unsigned indice, std::shared_ptr<Concepteur> autreConcepteur) {
 	listeConcepteurs_[indice] = autreConcepteur;

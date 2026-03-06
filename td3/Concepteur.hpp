@@ -19,6 +19,9 @@ public:
 	//  Constructeur paramétré.
 	Concepteur(const std::string& nom, int anneNaissance, const std::string& pays);
 
+	// Destructeur
+	~Concepteur();
+
 	const std::string& getNom() const;
 
 	void setNom(std::string nom);

@@ -22,6 +22,12 @@ Concepteur::Concepteur(const std::string& nom, int anneNaissance, const std::str
 	pays_ = pays;
 }
 
+Concepteur::~Concepteur() {
+	nom_ = "inconnu";
+	anneeNaissance_ = 0;
+	pays_ = "inconnu";
+}
+
 const std::string& Concepteur::getNom() const { return nom_; }
 
 void Concepteur::setNom(std::string nom) { nom_ = move(nom); }

@@ -22,7 +22,7 @@
 
 using namespace std;
 
-//TODO: Vos surcharges d'opérateur <<
+// Vos surcharges d'opérateur <<
 ostream& operator<<(ostream& o, const ListeConcepteurs& listeConcepteurs) {
 	for (unsigned i = 0; i < listeConcepteurs.size(); ++i) {
 		o << "Concepteur " << i + 1 << " : " << listeConcepteurs[i]->getNom() << ", né en " << listeConcepteurs[i]->getAnneeNaissance() << " au " << listeConcepteurs[i]->getPays() << endl;
@@ -75,9 +75,9 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 		"══════════════════════════════════════════════════════════════════════════"
 		"\033[0m\n";
 
-	//TODO: L'affichage de listeJeux et l'écriture dans le fichier devraient fonctionner.
+	// L'affichage de listeJeux et l'écriture dans le fichier devraient fonctionner.
 
-	//TODO: Compléter le main avec les tests demandés.
+	// Compléter le main avec les tests demandés.
 
 	// Obtenir le jeu 3 et afficher son titre pour vérifier que la lecture du fichier a fonctionné.
 	cout << ligneSeparation << endl;
@@ -132,6 +132,15 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 
 	copieJeu.accederListeConcepteurs()[1] = listeJeux[0]->accederListeConcepteurs()[1]; // modification de la copie du jeu
 
+	const Jeu copieJeuConst = copieJeu; // pour tester la version const de accederListeConcepteurs
+
+	cout << ligneSeparation << endl;
+
+	cout << "Utilisation de la version const de accederListeConcepteurs de Jeu" << endl << endl;
+	cout << copieJeuConst.accederListeConcepteurs()[0];
+
+	cout << ligneSeparation << endl;
+
 	cout << "---------- Copie du jeu 3 avec modification de la copie ----------" << endl << endl;
 	cout << copieJeu << endl;
 	cout << "---------- Après modification de la copie du jeu 3 ----------" << endl << endl;
@@ -146,7 +155,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 	cout << "Adresses des premiers concepteurs égales  (1 : True, 0 : False) ??" << endl << "Réponse : " << pareil << endl;
 
 	cout << ligneSeparation << endl;
-	//TODO: S'assurer qu'aucune ligne de code est non couverte.
+	// S'assurer qu'aucune ligne de code est non couverte.
 	//NOTE: Il n'est pas nécessaire de couvrir les getters/setters simples fournis; il faut tester si vous en ajoutez ou les modifiez.
 	//NOTE: Pour Liste, qui est générique, on demande de couvrir uniquement pour Liste<Jeu>, pas pour tous les types.
 }
