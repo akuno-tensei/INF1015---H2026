@@ -1,6 +1,8 @@
 #pragma once
 #include "Personnage.hpp"
 
+const std::string RESET_COULEUR = "\33[0m";
+
 Personnage::Personnage(const std::string& nom, const std::string& titreJeu)	: 
 	nom_(nom), 
 	parution_(titreJeu), 
@@ -13,11 +15,15 @@ Personnage::Personnage(const Personnage& autre) :
 	couleur_(autre.couleur_) 
 {}
 
-void Personnage::changerCouleur(const Couleur& couleur) { couleur_ = couleur; }
+void Personnage::changerCouleur(const Couleur& couleur) { 
+	couleur_ = couleur;
+}
 
 void Personnage::afficher(std::ostream& os) const {
-	os << "Nom : " << enString(couleur_) + nom_ + "\33[0m" << std::endl
-	   << "Parution : " << enString(couleur_) + parution_ + "\33[0m" << std::endl;
+	os << enString(couleur_);
+	os << "Nom : " << nom_ << std::endl
+	   << "Parution : " << parution_ << std::endl;
+	os << RESET_COULEUR;
 }
 
 std::string Personnage::enString(const Couleur& couleur) const {

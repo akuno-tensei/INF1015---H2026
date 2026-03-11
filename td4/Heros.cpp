@@ -1,6 +1,8 @@
 #pragma once
 #include "Heros.hpp"
 
+const std::string RESET_COULEUR = "\33[0m";
+
 Heros::Heros(const std::string& nom, const std::string& parution) : 
 	Personnage::Personnage(nom, parution),
 	listeEnnemiAllies_(std::vector<std::string>(0))
@@ -18,20 +20,23 @@ void Heros::changerCouleur(const Couleur& couleur) { Personnage::changerCouleur(
 void Heros::afficherListeEnnemiAllies(std::ostream& os) const {
 	unsigned int enemi = 1;
 
+	os << Personnage::enString(Personnage::obtenirCouleur());
+
 	for (const std::string& nom : std::span(listeEnnemiAllies_)) {
 		if (enemi == 1) {
-			os << Personnage::enString(Personnage::obtenirCouleur()) + "Enemi : "
-			   << nom + "\33[0m" << std::endl;
+			os << "Enemi : " << nom << std::endl;
 			enemi = 0;
 		}
 		else {
-			os << Personnage::enString(Personnage::obtenirCouleur()) + "Alliés : "
-			   << nom + "\33[0m" << std::endl;
+			os << "Alliés : " << nom  << std::endl;
 		}
 	}
+
+	os << RESET_COULEUR;
 }
 
 void Heros::afficher(std::ostream& os) const {
 	Personnage::afficher(os);
+
 	afficherListeEnnemiAllies(os);
 }

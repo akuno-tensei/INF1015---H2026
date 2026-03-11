@@ -13,6 +13,7 @@ using UInt16 = uint16_t;
 // Trait de separation
 static const string TRAIT = "═════════════════════════════════════════════════════════════════════════";
 
+const Couleur COULEUR_INITIALE = Couleur::BLANC;
 
 UInt8 lireUint8(istream& fichier)
 {
@@ -103,17 +104,13 @@ void afficherVecteurPerso(const vector<shared_ptr<P>>& personnages, ostream& os)
 }
 
 template <typename P>
-void afficherPersoColorie(shared_ptr<P>& personnages, ostream& os, Couleur couleur = Couleur::BLANC) {
-	// Couleur couleurInitiale = personnages->obtenirCouleur();
-
-	personnages->changerCouleur(couleur);
-	personnages->afficher(os);
-
-	// personnages->changerCouleur(couleurInitiale);
+void afficherPersoColorie(shared_ptr<P>& personnage, ostream& os, Couleur couleur= COULEUR_INITIALE) {
+	personnage->changerCouleur(couleur);
+	personnage->afficher(os);
 }
 
 template <typename P>
-void afficherVecteurPersoColorie(vector<shared_ptr<P>>& personnages, ostream& os, Couleur couleur = Couleur::BLANC) {
+void afficherVecteurPersoColorie(vector<shared_ptr<P>>& personnages, ostream& os, Couleur couleur = COULEUR_INITIALE) {
 	for (shared_ptr<P>& perso : span(personnages)) {
 		afficherPersoColorie<P>(perso, os, couleur);
 		os << TRAIT << endl;
@@ -153,7 +150,7 @@ int main()
 
 	afficherVecteurPersoColorie<Vilain>(vilains, cout, Couleur::ROUGE);
 
-	// Personnage perso = *vecteurHeros[0];
+	// shared_ptr<Personnage> perso = make_shared<Personnage>(*heros[0]);
 
 	personnages.insert(personnages.end(), heros.begin(), heros.end()); 
 	personnages.insert(personnages.end(), vilains.begin(), vilains.end());

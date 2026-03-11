@@ -1,6 +1,8 @@
 #pragma once
 #include "Vilain.hpp"
 
+const std::string RESET_COULEUR = "\33[0m";
+
 Vilain::Vilain(const std::string& nom, const std::string& parution, const std::string& objectif) : 
 	Personnage::Personnage(nom, parution),
 	objectif_(objectif) 
@@ -14,8 +16,9 @@ Vilain::Vilain(const Vilain& autreVilain) :
 void Vilain::changerCouleur(const Couleur& couleur) { Personnage::changerCouleur(couleur); }
 
 void Vilain::afficherObjectif(std::ostream& os) const {
-	os << "Objectif : "
-		<< Personnage::enString(Personnage::obtenirCouleur()) + objectif_ + "\33[0m" << std::endl;
+	os << Personnage::enString(Personnage::obtenirCouleur());
+	os << "Objectif : " << objectif_ << std::endl;
+	os << RESET_COULEUR;
 }
 
 void Vilain::afficher(std::ostream& os) const {
