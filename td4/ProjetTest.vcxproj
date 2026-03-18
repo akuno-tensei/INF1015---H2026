@@ -176,7 +176,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Affichable.hpp" />
-    <ClInclude Include="Couleur.h" />
+    <ClInclude Include="Couleur.hpp" />
     <ClInclude Include="Heros.hpp" />
     <ClInclude Include="Personnage.hpp" />
     <ClInclude Include="Vilain.hpp" />

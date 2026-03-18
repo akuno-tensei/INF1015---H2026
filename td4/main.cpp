@@ -1,4 +1,18 @@
-﻿#include <fstream>
+﻿/*
+	Nom du fichier : main.cpp
+	Crée le 3 mars 2026 
+	Modifié le 18 mars 2026
+	Auteurs : Paul Tankeu Pajouo (2373265), Diego Alejandro Monsalve Rivas (2343317)
+
+	Description : Ce programme implémente des tests de gestion de personnages via des shared_ptr. 
+				  Il contient des fonctions utilitaires de lecture (lireString, lireUint), des patrons de fonctions génériques 
+				  pour la création et l'affichage de vecteurs (creerVecteurPerso, afficherVecteurPerso).
+				  Le main effectue le chargement de fichiers de données, l'agrégation de types hétérogènes dans un vecteur commun 
+				  et la validation visuelle par des sorties console colorées.
+*/
+
+
+#include <fstream>
 #include "bibliotheque_cours.hpp"
 #include "Personnage.hpp"
 #include "Heros.hpp"
@@ -77,14 +91,14 @@ shared_ptr<U> lirePerso(istream& fichier) {
 	return nullptr;
 }
 
-template <typename T>
-vector<shared_ptr<T>> creerVecteurPerso(istream& fichier) {
+template <typename P>
+vector<shared_ptr<P>> creerVecteurPerso(istream& fichier) {
 	unsigned int nbrePerso = lireUint16(fichier);
-	vector<shared_ptr<T>> vecteurPerso;
+	vector<shared_ptr<P>> vecteurPerso;
 	vecteurPerso.reserve(nbrePerso);
 
 	for (unsigned int i = 0; i < nbrePerso; i++) {
-		vecteurPerso.push_back(lirePerso<T>(fichier));
+		vecteurPerso.push_back(lirePerso<P>(fichier));
 	}
 
 	return vecteurPerso; 
@@ -104,14 +118,14 @@ void afficherVecteurPerso(const vector<shared_ptr<P>>& personnages, ostream& os)
 }
 
 template <typename P>
-void afficherPersoColorie(shared_ptr<P>& personnage, ostream& os, Couleur couleur= COULEUR_INITIALE) {
+void afficherPersoColorie(const shared_ptr<P>& personnage, ostream& os, Couleur couleur= COULEUR_INITIALE) {
 	personnage->changerCouleur(couleur);
 	personnage->afficher(os);
 }
 
 template <typename P>
-void afficherVecteurPersoColorie(vector<shared_ptr<P>>& personnages, ostream& os, Couleur couleur = COULEUR_INITIALE) {
-	for (shared_ptr<P>& perso : span(personnages)) {
+void afficherVecteurPersoColorie(const vector<shared_ptr<P>>& personnages, ostream& os, Couleur couleur = COULEUR_INITIALE) {
+	for (const shared_ptr<P>& perso : span(personnages)) {
 		afficherPersoColorie<P>(perso, os, couleur);
 		os << TRAIT << endl;
 	}

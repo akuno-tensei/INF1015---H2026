@@ -1,3 +1,15 @@
+
+/*
+		Nom du fichier : Heros.cpp
+		Crée le 3 mars 2026
+		Modifié le 18 mars 2026
+		Auteurs : Paul Tankeu Pajouo (2373265), Diego Alejandro Monsalve Rivas (2343317)
+
+		Description : Implémentation de la classe Heros, incluant la gestion et l'affichage des ennemis et alliés.
+					  Ce fichier définit les méthodes de la classe Heros, permettant d'ajouter des personnages
+					  à une liste d'ennemis et d'alliés, ainsi que d'afficher ces informations avec gestion de la couleur.
+*/
+
 #pragma once
 #include "Heros.hpp"
 
@@ -14,8 +26,6 @@ Heros::Heros(const Heros& autreHeros) :
 {}
 
 void Heros::ajouterPersonnage(const std::string& nom) { listeEnnemiAllies_.push_back(nom); }
-
-void Heros::changerCouleur(const Couleur& couleur) { Personnage::changerCouleur(couleur); };
 
 void Heros::afficherListeEnnemiAllies(std::ostream& os) const {
 	unsigned int enemi = 1;

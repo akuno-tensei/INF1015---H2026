@@ -1,3 +1,15 @@
+
+/*
+		Nom du fichier : Personnage.hpp
+		Crée le 3 mars 2026
+		Modifié le 18 mars 2026
+		Auteurs : Paul Tankeu Pajouo (2373265), Diego Alejandro Monsalve Rivas (2343317)
+		
+		Description : Classe représentant un personnage affichable avec un nom, une date de parution et une couleur.
+					  Cette classe hérite de Affichable et permet de gérer l'affichage d'un personnage,
+					  ainsi que la modification et l'obtention de ses attributs (nom, parution, couleur).
+*/
+
 #pragma once
 #include "Affichable.hpp"
 

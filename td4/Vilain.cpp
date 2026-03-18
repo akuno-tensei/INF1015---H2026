@@ -1,3 +1,15 @@
+
+/*
+		Nom du fichier : Vilain.cpp
+		Crée le 3 mars 2026
+		Modifié le 18 mars 2026
+		Auteurs : Paul Tankeu Pajouo (2373265), Diego Alejandro Monsalve Rivas (2343317)
+
+		Description : Implémentation de la classe Vilain, incluant la gestion et l'affichage de son objectif.
+					  Ce fichier définit les méthodes de la classe Vilain, permettant d'initialiser un vilain,
+					  de gérer son objectif et d'afficher ses informations avec mise en couleur.
+*/
+
 #pragma once
 #include "Vilain.hpp"
 
@@ -12,8 +24,6 @@ Vilain::Vilain(const Vilain& autreVilain) :
 	Personnage::Personnage(autreVilain.obtenirNom(), autreVilain.obtenirParution()),
 	objectif_(autreVilain.obtenirObjectif())
 {}
-
-void Vilain::changerCouleur(const Couleur& couleur) { Personnage::changerCouleur(couleur); }
 
 void Vilain::afficherObjectif(std::ostream& os) const {
 	os << Personnage::enString(Personnage::obtenirCouleur());

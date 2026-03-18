@@ -1,3 +1,15 @@
+
+/*
+		Nom du fichier : Personnage.cpp
+		Crée le 3 mars 2026
+		Modifié le 18 mars 2026
+		Auteurs : Paul Tankeu Pajouo (2373265), Diego Alejandro Monsalve Rivas (2343317)
+
+		Description : Implémentation de la classe Heros, incluant la gestion et l'affichage des ennemis et alliés.
+					  Ce fichier définit les méthodes permettant d'initialiser un personnage, de modifier sa couleur,
+					  et d'afficher ses informations avec des codes ANSI selon la couleur sélectionnée.
+*/
+
 #pragma once
 #include "Personnage.hpp"
 
