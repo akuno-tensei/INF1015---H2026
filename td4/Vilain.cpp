@@ -20,9 +20,9 @@ Vilain::Vilain(const std::string& nom, const std::string& parution, const std::s
 	objectif_(objectif) 
 {}
 
-Vilain::Vilain(const Vilain& autreVilain) : 
-	Personnage::Personnage(autreVilain.obtenirNom(), autreVilain.obtenirParution()),
-	objectif_(autreVilain.obtenirObjectif())
+Vilain::Vilain(const Vilain& autre) : 
+	Personnage::Personnage(autre.obtenirNom(), autre.obtenirParution()),
+	objectif_(autre.obtenirObjectif())
 {}
 
 void Vilain::afficherObjectif(std::ostream& os) const {

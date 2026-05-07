@@ -29,6 +29,8 @@ x64/*
 include/*
 bibliotheque_cours/*
 ProjetTest/*
+projetEchech/*
+*.zip
 
 # Shared objects (inc. Windows DLLs)
 *.dll

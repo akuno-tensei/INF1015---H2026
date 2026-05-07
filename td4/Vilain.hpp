@@ -16,7 +16,7 @@
 class Vilain : virtual public Personnage {
 	public:
 		Vilain(const std::string& nom, const std::string& parution, const std::string& objectif);
-		Vilain(const Vilain& autreVilain);
+		Vilain(const Vilain& autre);
 		~Vilain() override = default;
 
 		void afficher(std::ostream& os) const override;
